@@ -1,27 +1,23 @@
-const jwt = require("jsonwebtoken");
-const User = require("../models/User");
+import jwt from "jsonwebtoken";
 
-const authenticateToken = (req, res, next) => {
-  const token = req.header("Authorization");
-  if (!token)
-    return res.status(403).json({ error: "Access Denied, No Token Provided" });
+// user authentication middleware
 
+const authUser = async (req, res, next) => {
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded; 
+    const { token } = req.headers;
+    if (!token) {
+      return res.json({
+        success: false,
+        message: "Not Authorized Login Again!",
+      });
+    }
+    const token_decode = jwt.verify(token, process.env.JWT_SECRET);
+    req.body.userId = token_decode.id;
     next();
-  } catch (err) {
-    res.status(400).json({ error: "Invalid Token" });
+  } catch (error) {
+    console.log(error);
+    res.status(401).json({ success: false, message: error.message });
   }
 };
 
-const authorizeRole = (roles) => {
-  return (req, res, next) => {
-    if (!roles.includes(req.user.role)) {
-      return res.status(403).json({ error: "You do not have permission" });
-    }
-    next();
-  };
-};
-
-module.exports = { authenticateToken, authorizeRole };
+export default authUser;
