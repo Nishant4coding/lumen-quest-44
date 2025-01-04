@@ -5,6 +5,15 @@ require("dotenv").config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+app.use(
+  cors({
+    origin: "", // Specific origin here
+    methods: ["POST", "GET", "PUT", "DELETE"],
+    credentials: true, // Allow credentials to be sent
+  })
+);
+
+app.options("*", cors());
 
 // Middleware
 app.use(express.json());
