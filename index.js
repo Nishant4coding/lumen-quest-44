@@ -3,14 +3,15 @@ const mongoose = require("mongoose");
 const productRoutes = require("./routes/productRoutes");
 require("dotenv").config();
 const cors = require("cors");
+// const userRouter = require("./routes/userRoutes");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 app.use(
   cors({
-    origin: "*", // Accept all origins during development
+    origin: "*",
     methods: ["POST", "GET", "PUT", "DELETE"],
-    credentials: true, // Allow credentials to be sent
+    credentials: true,
   })
 );
 
@@ -19,7 +20,7 @@ app.options("*", cors());
 // Middleware
 app.use(express.json());
 
-app.use("/api/user", userRouter);
+// app.use("/api/user", userRouter);
 
 app.get("/", (req, res) => {
   res.send("API Working!");
