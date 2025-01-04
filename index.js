@@ -19,6 +19,12 @@ app.options("*", cors());
 // Middleware
 app.use(express.json());
 
+app.use("/api/user", userRouter);
+
+app.get("/", (req, res) => {
+  res.send("API Working!");
+});
+
 // Connect to MongoDB
 mongoose
   .connect(process.env.MONGO_URI, {
