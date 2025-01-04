@@ -21,7 +21,7 @@ const productSchema = new mongoose.Schema({
   approvalStatus: {
     type: String,
     enum: ["Pending", "Approved", "Rejected"],
-    default: "Pending", 
+    default: "Pending",
   },
 });
 
